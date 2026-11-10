@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ufuk Özdemir — agent session</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0d0b; --panel:#0f1411; --line:#1d2620; --dim:#5f7366; --text:#c9d6cd;
+    --green:#4ade80; --amber:#fbbf24; --cyan:#67e8f9; --red:#f87171;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font:15px/1.7 "JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:100vh;
+    background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(74,222,128,.09),transparent)}
+  a{color:var(--cyan);text-decoration:none;border-bottom:1px dashed rgba(103,232,249,.4)}
+  a:hover{background:var(--cyan);color:var(--bg)}
+  .bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:10px 18px;background:rgba(10,13,11,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);font-size:12px;color:var(--dim)}
+  .dots{display:flex;gap:6px}.dots i{width:11px;height:11px;border-radius:50%;background:#2a352d}
+  .dots i:nth-child(1){background:#f87171}.dots i:nth-child(2){background:#fbbf24}.dots i:nth-child(3){background:#4ade80}
+  .bar .title{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar nav{display:flex;gap:14px}.bar nav a{border:0;color:var(--dim)}.bar nav a:hover{background:none;color:var(--green)}
+  .status{color:var(--green)}.status::before{content:"●";margin-right:6px;animation:blink 1.6s infinite}
+  @keyframes blink{50%{opacity:.25}}
+  main{max-width:920px;margin:0 auto;padding:48px 20px 120px}
+  .ascii{color:var(--green);font-weight:800;font-size:clamp(34px,9vw,84px);line-height:1;letter-spacing:-.04em;margin:26px 0 10px;text-shadow:0 0 34px rgba(74,222,128,.35)}
+  .ascii span{color:var(--dim);font-weight:400}
+  .sub{color:var(--text);font-size:clamp(15px,2.2vw,19px);max-width:680px}
+  .sub b{color:var(--amber);font-weight:500}
+  .cmd{color:#fff;margin-top:8px}.cmd::before{content:"❯ ";color:var(--green)}
+  .cursor{display:inline-block;width:9px;height:1.1em;background:var(--green);vertical-align:-3px;animation:blink 1s steps(1) infinite}
+  .step{margin-top:44px;opacity:0;transform:translateY(14px);transition:.6s}
+  .step.on{opacity:1;transform:none}
+  .tool{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .tool .dot{color:var(--green)}
+  .tool .name{color:#fff;font-weight:700}
+  .tool .arg{color:var(--dim)}
+  .tool .ok{margin-left:auto;color:var(--green);font-size:12px}
+  .out{margin:10px 0 0 7px;padding:4px 0 4px 22px;border-left:1px solid var(--line)}
+  .out p{max-width:720px;margin:8px 0}
+  .hl{color:var(--amber)}.g{color:var(--green)}.c{color:var(--cyan)}.d{color:var(--dim)}
+  .todo{list-style:none}.todo li::before{content:"☑ ";color:var(--green)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:12px}
+  .card{background:var(--panel);border:1px solid var(--line);padding:16px;border-radius:6px;transition:.2s}
+  .card:hover{border-color:var(--green);transform:translateY(-2px)}
+  .card h3{font-size:14px;color:#fff}.card h3 span{color:var(--green)}
+  .card p{font-size:13px;color:var(--dim);margin-top:6px}
+  .diff{background:var(--panel);border:1px solid var(--line);border-radius:6px;margin-top:12px;overflow:hidden}
+  .diff .h{padding:8px 14px;border-bottom:1px solid var(--line);color:var(--dim);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .diff .h b{color:#fff}
+  .diff div.l{padding:2px 14px;font-size:13.5px}
+  .diff .add{background:rgba(74,222,128,.08);color:#b6f2c9}.diff .add::before{content:"+ ";color:var(--green)}
+  .diff .ctx::before{content:"  "}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .tags span{border:1px solid var(--line);padding:2px 10px;border-radius:99px;font-size:12.5px}
+  .tags .ai{border-color:rgba(251,191,36,.5);color:var(--amber)}
+  blockquote{color:var(--text);margin:10px 0}blockquote::before{content:"/** ";color:var(--dim)}blockquote::after{content:" */";color:var(--dim)}
+  .by{color:var(--dim);font-size:13px}
+  .repl{margin-top:56px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
+  .repl #log{white-space:pre-wrap;font-size:13.5px;color:var(--dim)}
+  .repl label{display:flex;gap:8px;color:var(--green);margin-top:6px}
+  .repl input{flex:1;background:none;border:0;outline:0;color:#fff;font:inherit;caret-color:var(--green)}
+  footer{margin-top:40px;color:var(--dim);font-size:12px}
+  @media(max-width:600px){.bar nav{display:none}body{font-size:14px}}
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="dots"><i></i><i></i><i></i></div>
+  <div class="title">~/ufukozdemir.dev — agent session</div>
+  <nav><a href="#about">about</a><a href="#work">work</a><a href="#stack">stack</a><a href="#contact">contact</a></nav>
+  <span class="status">running</span>
+</div>
+
+<main>
+  <div class="cmd"><span id="typed"></span><span class="cursor"></span></div>
+  <h1 class="ascii">ufuk<span>.</span>özdemir<span>_</span></h1>
+  <p class="sub">Senior Software Developer. <b>15+ years of backend engineering</b>, now building <b>agentic coding tools</b> and <b>AI servers</b> that put AI to work on monitoring, coding and performance.</p>
+
+  <section class="step" id="plan">
+    <div class="tool"><span class="dot">●</span><span class="name">Plan</span><span class="arg">introduce(ufuk)</span></div>
+    <div class="out"><ul class="todo">
+      <li>whoami — who is this person</li>
+      <li>list focus areas — what he builds with AI</li>
+      <li>git log --career — where he has been</li>
+      <li>cat stack.json — tools of the trade</li>
+      <li>open contact channel</li>
+    </ul></div>
+  </section>
+
+  <section class="step" id="about">
+    <div class="tool"><span class="dot">●</span><span class="name">Bash</span><span class="arg">(whoami --verbose)</span><span class="ok">✓ 0.2s</span></div>
+    <div class="out">
+      <p>I'm a backend developer by trade — <span class="hl">.NET, distributed systems, high-traffic betting platforms</span>. I like complex problems and layered architectures.</p>
+      <p>For the last year my work has moved to a new layer: <span class="g">agentic coding</span>. I write tools for AI agents, build AI servers, and take an active role in my company's AI journey — turning AI from a demo into something teams actually use.</p>
+      <p class="d">role: Senior Software Developer @ Nesine.com · base: Türkiye · experience: 15+ yrs</p>
+    </div>
+  </section>
+
+  <section class="step" id="focus">
+    <div class="tool"><span class="dot">●</span><span class="name">Read</span><span class="arg">(focus/*.md)</span><span class="ok">✓ 4 files</span></div>
+    <div class="out"><div class="grid">
+      <div class="card"><h3><span>01</span> Agentic coding tools</h3><p>Tools and workflows that let AI agents read, write and ship code alongside engineers.</p></div>
+      <div class="card"><h3><span>02</span> AI servers</h3><p>Servers that connect AI tools to the systems, data and context a company really runs on.</p></div>
+      <div class="card"><h3><span>03</span> AI for monitoring</h3><p>Agents that watch production signals and help teams understand what is happening, faster.</p></div>
+      <div class="card"><h3><span>04</span> AI for performance</h3><p>Using AI to find bottlenecks and improve performance in large, high-traffic systems.</p></div>
+    </div></div>
+  </section>
+
+  <section class="step" id="work">
+    <div class="tool"><span class="dot">●</span><span class="name">Bash</span><span class="arg">(git log --career)</span><span class="ok">✓ 2 commits</span></div>
+    <div class="out">
+      <div class="diff">
+        <div class="h"><b>Senior Software Developer — Nesine.com</b><span>2021 → HEAD</span></div>
+        <div class="l add">Agentic coding tools and AI servers for engineering teams</div>
+        <div class="l add">AI solutions for monitoring, coding and performance</div>
+        <div class="l ctx">Scalable betting platform features on .NET</div>
+        <div class="l ctx">Database performance optimisation and caching</div>
+        <div class="l ctx">Real-time data processing systems</div>
+      </div>
+      <div class="diff">
+        <div class="h"><b>Senior Software Developer — Türkiye Jokey Kulübü</b><span>2012 → 2021</span></div>
+        <div class="l ctx">Core betting systems and internal applications</div>
+        <div class="l ctx">Secure payment processing solutions</div>
+        <div class="l ctx">Maintained and modernised legacy systems</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="step" id="stack">
+    <div class="tool"><span class="dot">●</span><span class="name">Read</span><span class="arg">(stack.json)</span><span class="ok">✓</span></div>
+    <div class="out">
+      <p class="d">// ai</p>
+      <div class="tags"><span class="ai">agentic coding</span><span class="ai">AI servers</span><span class="ai">agent tooling</span></div>
+      <p class="d" style="margin-top:14px">// backend</p>
+      <div class="tags"><span>C#</span><span>.NET Core</span><span>microservices</span><span>SQL Server</span><span>MongoDB</span><span>Redis</span><span>RabbitMQ</span><span>Docker</span><span>Kubernetes</span></div>
+    </div>
+  </section>
+
+  <section class="step" id="reviews">
+    <div class="tool"><span class="dot">●</span><span class="name">Grep</span><span class="arg">("worked with Ufuk", reviews/)</span><span class="ok">✓ 2 matches</span></div>
+    <div class="out">
+      <blockquote>He is a good developer who is open to self-improvement and actively follows new developments. He has a personality that will make a difference where he works.</blockquote>
+      <p class="by">— Taner Başyiğit</p>
+      <blockquote>With his work ethic, problem-solving ability, and experience, he is someone who will add value to every organization he works with.</blockquote>
+      <p class="by">— Ömer Ünaldı</p>
+    </div>
+  </section>
+
+  <section class="step" id="contact">
+    <div class="tool"><span class="dot">●</span><span class="name">Done</span><span class="arg">— open a channel</span></div>
+    <div class="out">
+      <p><span class="d">mail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a href="mailto:ufuko@icloud.com">ufuko@icloud.com</a></p>
+      <p><span class="d">linkedin&nbsp;</span><a href="https://www.linkedin.com/in/ufuko/">linkedin.com/in/ufuko</a></p>
+      <p><span class="d">x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a href="https://twitter.com/ufukblog">@ufukblog</a></p>
+      <p><span class="d">side&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a href="https://www.supertarifler.com">supertarifler.com</a></p>
+    </div>
+  </section>
+
+  <div class="repl step">
+    <div id="log">Try it: type <span class="g">help</span> and press Enter.</div>
+    <label>❯ <input id="in" autocomplete="off" spellcheck="false" aria-label="command"></label>
+  </div>
+  <footer>© <span id="y"></span> Ufuk Özdemir · session ended with exit code 0</footer>
+</main>
+
+<script>
+  const t="agent run --task \"introduce ufuk\"",el=document.getElementById('typed');let i=0;
+  (function type(){el.textContent=t.slice(0,i++);if(i<=t.length)setTimeout(type,38)})();
+  const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('on')),{threshold:.12});
+  document.querySelectorAll('.step').forEach(s=>io.observe(s));
+  document.getElementById('y').textContent=new Date().getFullYear();
+  const cmds={
+    help:"commands: about · focus · work · stack · contact · clear",
+    about:"Senior Software Developer. 15+ yrs backend, now agentic coding & AI servers.",
+    focus:"agentic coding tools · AI servers · AI for monitoring · AI for performance",
+    work:"Nesine.com (2021 → now) · Türkiye Jokey Kulübü (2012 → 2021)",
+    stack:"C# · .NET Core · SQL Server · MongoDB · Redis · RabbitMQ · Docker · Kubernetes",
+    contact:"ufuko@icloud.com · linkedin.com/in/ufuko"
+  };
+  const log=document.getElementById('log'),inp=document.getElementById('in');
+  inp.addEventListener('keydown',e=>{
+    if(e.key!=='Enter')return;const c=inp.value.trim().toLowerCase();inp.value='';if(!c)return;
+    if(c==='clear'){log.textContent='';return}
+    log.textContent+="\n❯ "+c+"\n"+(cmds[c]||"command not found: "+c+" — try 'help'");
+    const s=document.getElementById(c);if(s)s.scrollIntoView({block:'center'});
+  });
+</script>
+</body>
+</html>

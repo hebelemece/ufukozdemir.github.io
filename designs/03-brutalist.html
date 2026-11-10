@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ufuk Özdemir — builds agents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#fff8e1;--k:#111;--y:#ffd60a;--p:#ff5c8a;--b:#4d7cff;--g:#22d3a0;--o:#ff8a3d;--w:#fff}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-x:hidden}
+  body{background:var(--bg);color:var(--k);font:500 17px/1.5 "Space Grotesk",Arial,sans-serif;overflow-x:clip;
+    background-image:radial-gradient(var(--k) 1px,transparent 1px);background-size:22px 22px;background-position:-11px -11px}
+  .disp{font-family:"Archivo Black","Arial Black",Impact,sans-serif;text-transform:uppercase;line-height:.92;letter-spacing:-.02em}
+  a{color:inherit}
+  .box{border:3px solid var(--k);box-shadow:7px 7px 0 var(--k);background:var(--w);border-radius:14px}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px}
+  header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 18px;position:sticky;top:14px;z-index:9}
+  header .logo{font-family:"Archivo Black",sans-serif;font-size:20px}
+  header nav{display:flex;gap:8px}
+  .btn{display:inline-block;padding:8px 16px;border:3px solid var(--k);border-radius:99px;text-decoration:none;font-weight:700;background:var(--w);box-shadow:3px 3px 0 var(--k);transition:.12s}
+  .btn:hover{transform:translate(3px,3px);box-shadow:0 0 0 var(--k)}
+  .btn.y{background:var(--y)}.btn.p{background:var(--p)}.btn.g{background:var(--g)}.btn.b{background:var(--b);color:#fff}
+  .hero{display:grid;grid-template-columns:1.5fr 1fr;gap:22px;margin-top:34px}
+  .hero .main{background:var(--y);padding:40px 34px;position:relative}
+  .hero h1{font-size:clamp(50px,9.4vw,128px);line-height:1.02}
+  .hero h1 mark{background:var(--k);color:var(--y);padding:0 .12em;border-radius:10px;display:inline-block;transform:rotate(-2deg)}
+  .hero p{font-size:clamp(18px,2vw,23px);max-width:560px;margin:24px 0;font-weight:500}
+  .sticker{position:absolute;right:-14px;top:-18px;background:var(--p);border:3px solid var(--k);border-radius:99px;padding:10px 18px;font-weight:700;transform:rotate(8deg);box-shadow:4px 4px 0 var(--k)}
+  .side{display:grid;gap:22px}
+  .stat{padding:22px;display:flex;flex-direction:column;justify-content:center}
+  .stat b{font-family:"Archivo Black",sans-serif;font-size:clamp(54px,7vw,92px);line-height:.9}
+  .stat span{font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:.06em;margin-top:6px}
+  .marq{margin:44px -40px;background:var(--k);color:var(--bg);border-block:3px solid var(--k);transform:rotate(-1.4deg);overflow:hidden;white-space:nowrap;padding:12px 0}
+  .marq div{display:inline-block;animation:m 26s linear infinite;font-family:"Archivo Black",sans-serif;font-size:26px;text-transform:uppercase}
+  .marq span{color:var(--y);margin:0 18px}
+  @keyframes m{to{transform:translateX(-50%)}}
+  h2{font-size:clamp(38px,6vw,76px);margin:64px 0 24px}
+  h2 u{text-decoration:none;background:linear-gradient(transparent 58%,var(--p) 58%)}
+  .about{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .about .box{padding:28px;font-size:19px}
+  .about .box:nth-child(2){background:var(--b);color:#fff;transform:rotate(1.2deg)}
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .card{padding:24px;transition:.15s;min-height:240px;display:flex;flex-direction:column}
+  .card:hover{transform:translate(-4px,-4px) rotate(-1deg);box-shadow:12px 12px 0 var(--k)}
+  .card .n{font-family:"Archivo Black",sans-serif;font-size:50px;line-height:1}
+  .card h3{font-family:"Archivo Black",sans-serif;text-transform:uppercase;font-size:21px;line-height:1.05;margin:auto 0 10px}
+  .card p{font-size:15.5px}
+  .c1{background:var(--g)}.c2{background:var(--p)}.c3{background:var(--o)}.c4{background:var(--y)}
+  .jobs{display:grid;gap:22px}
+  .job{display:grid;grid-template-columns:230px 1fr;overflow:hidden}
+  .job .when{padding:26px;border-right:3px solid var(--k);font-family:"Archivo Black",sans-serif;font-size:30px;line-height:1.05;display:flex;align-items:center}
+  .job:nth-child(1) .when{background:var(--g)}.job:nth-child(2) .when{background:var(--o)}
+  .job .what{padding:26px}
+  .job h3{font-family:"Archivo Black",sans-serif;font-size:27px;text-transform:uppercase}
+  .job h4{font-size:15px;text-transform:uppercase;letter-spacing:.08em;margin:4px 0 12px}
+  .job li{list-style:none;padding-left:26px;position:relative;margin:4px 0}.job li::before{content:"→";position:absolute;left:0;font-weight:700}
+  .job li.new::after{content:"NEW";background:var(--p);border:2px solid var(--k);border-radius:99px;font-size:11px;font-weight:700;padding:0 7px;margin-left:8px;vertical-align:2px}
+  .chips{display:flex;flex-wrap:wrap;gap:12px}
+  .chip{border:3px solid var(--k);background:var(--w);padding:8px 18px;border-radius:99px;font-weight:700;font-size:18px;box-shadow:3px 3px 0 var(--k)}
+  .chip:nth-child(3n+1){transform:rotate(-2deg)}.chip:nth-child(3n){transform:rotate(1.5deg)}
+  .chip.ai{background:var(--k);color:var(--y)}
+  .quotes{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .q{padding:28px;font-size:19px;position:relative}
+  .q::before{content:"“";font-family:"Archivo Black",sans-serif;font-size:110px;line-height:.6;display:block;color:var(--p);height:46px}
+  .q:nth-child(2)::before{color:var(--b)}
+  .q cite{display:block;margin-top:14px;font-style:normal;font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:.06em}
+  .cta{background:var(--p);padding:56px 34px;text-align:center;margin-top:70px}
+  .cta h2{margin:0 0 14px;font-size:clamp(40px,8vw,104px)}
+  .cta p{font-size:20px;margin-bottom:26px}
+  .cta .btn{font-size:19px;padding:12px 24px;margin:6px}
+  footer{text-align:center;padding:34px 0 16px;font-weight:700;font-size:14px}
+  @media(max-width:900px){.hero,.about,.quotes{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.side{grid-template-columns:1fr 1fr}.job{grid-template-columns:1fr}.job .when{border-right:0;border-bottom:3px solid var(--k);font-size:24px;padding:16px 26px}.job .when br{display:none}}
+  @media(max-width:560px){.cards{grid-template-columns:1fr}.card{min-height:0}.card h3{margin-top:18px}header nav .btn:not(.y){display:none}.hero .main{padding:34px 22px}.sticker{right:6px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="box">
+    <span class="logo">UFUK.DEV</span>
+    <nav><a class="btn" href="#about">About</a><a class="btn" href="#ai">AI</a><a class="btn" href="#work">Work</a><a class="btn y" href="#contact">Say hi</a></nav>
+  </header>
+
+  <div class="hero">
+    <div class="box main">
+      <span class="sticker">★ agentic since '25</span>
+      <h1 class="disp">Ufuk<br>Özdemir<br><mark>builds agents.</mark></h1>
+      <p>Senior Software Developer. 15+ years of backend engineering, now writing agentic coding tools and AI servers that do real work.</p>
+      <a class="btn" href="#ai">See what I build ↓</a>
+    </div>
+    <div class="side">
+      <div class="box stat" style="background:var(--g)"><b>15+</b><span>years shipping backend</span></div>
+      <div class="box stat" style="background:var(--b);color:#fff"><b>365</b><span>days deep in agentic coding</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="marq"><div>
+  Agentic coding <span>✦</span> AI servers <span>✦</span> Monitoring <span>✦</span> Performance <span>✦</span> .NET <span>✦</span> Microservices <span>✦</span>
+  Agentic coding <span>✦</span> AI servers <span>✦</span> Monitoring <span>✦</span> Performance <span>✦</span> .NET <span>✦</span> Microservices <span>✦</span>
+  Agentic coding <span>✦</span> AI servers <span>✦</span> Monitoring <span>✦</span> Performance <span>✦</span> .NET <span>✦</span> Microservices <span>✦</span>
+  Agentic coding <span>✦</span> AI servers <span>✦</span> Monitoring <span>✦</span> Performance <span>✦</span> .NET <span>✦</span> Microservices <span>✦</span>
+</div></div>
+
+<div class="wrap">
+  <h2 class="disp" id="about">Hello, <u>I'm Ufuk</u></h2>
+  <div class="about">
+    <div class="box"><p>I'm a backend developer at heart — .NET, distributed systems, and the high-traffic betting platforms behind Nesine.com and Türkiye Jokey Kulübü. I love complex problems and layered architectures.</p></div>
+    <div class="box"><p>For the past year I've been all-in on <b>agentic coding</b>: writing tools for AI agents, building AI servers, and playing an active role in my company's AI journey.</p></div>
+  </div>
+
+  <h2 class="disp" id="ai">What I <u>build with AI</u></h2>
+  <div class="cards">
+    <div class="box card c1"><span class="n">01</span><h3>Agentic coding tools</h3><p>Tools and workflows that let AI agents read, write and ship code with engineers.</p></div>
+    <div class="box card c2"><span class="n">02</span><h3>AI servers</h3><p>Servers that plug AI tools into the systems and context a company runs on.</p></div>
+    <div class="box card c3"><span class="n">03</span><h3>AI for monitoring</h3><p>AI on production signals, so teams know what's going on — faster.</p></div>
+    <div class="box card c4"><span class="n">04</span><h3>AI for performance</h3><p>Hunting bottlenecks and tuning large, high-traffic systems with AI.</p></div>
+  </div>
+
+  <h2 class="disp" id="work">Where I've <u>worked</u></h2>
+  <div class="jobs">
+    <div class="box job"><div class="when">2021<br>→ NOW</div><div class="what">
+      <h3>Nesine.com</h3><h4>Senior Software Developer</h4>
+      <ul><li class="new">Agentic coding tools &amp; AI servers; active role in the company's AI journey</li><li>Scalable betting platform features on .NET</li><li>Database performance optimisation and caching</li><li>Real-time data processing systems</li></ul>
+    </div></div>
+    <div class="box job"><div class="when">2012<br>→ 2021</div><div class="what">
+      <h3>Türkiye Jokey Kulübü</h3><h4>Senior Software Developer</h4>
+      <ul><li>Core betting systems and internal applications</li><li>Secure payment processing solutions</li><li>Maintained and improved legacy systems</li></ul>
+    </div></div>
+  </div>
+
+  <h2 class="disp">The <u>toolbox</u></h2>
+  <div class="chips">
+    <span class="chip ai">Agentic coding</span><span class="chip ai">AI servers</span><span class="chip ai">Agent tooling</span>
+    <span class="chip">C#</span><span class="chip">.NET Core</span><span class="chip">Microservices</span><span class="chip">SQL Server</span><span class="chip">MongoDB</span><span class="chip">Redis</span><span class="chip">RabbitMQ</span><span class="chip">Docker</span><span class="chip">Kubernetes</span>
+  </div>
+
+  <h2 class="disp">Nice <u>words</u></h2>
+  <div class="quotes">
+    <div class="box q">He is a good developer who is open to self-improvement and actively follows new developments. He has a personality that will make a difference where he works.<cite>Taner Başyiğit</cite></div>
+    <div class="box q">With his work ethic, problem-solving ability, and experience, he is someone who will add value to every organization he works with.<cite>Ömer Ünaldı</cite></div>
+  </div>
+
+  <div class="box cta" id="contact">
+    <h2 class="disp">Let's talk AI.</h2>
+    <p>Agents, AI servers, backend war stories — I'm in.</p>
+    <a class="btn y" href="mailto:ufuko@icloud.com">ufuko@icloud.com</a>
+    <a class="btn" href="https://www.linkedin.com/in/ufuko/">LinkedIn ↗</a>
+    <a class="btn g" href="https://twitter.com/ufukblog">X ↗</a>
+    <a class="btn" href="https://www.supertarifler.com">Süper Tarifler ↗</a>
+  </div>
+  <footer>© Ufuk Özdemir — made with care (and a few agents)</footer>
+</div>
+</body>
+</html>
