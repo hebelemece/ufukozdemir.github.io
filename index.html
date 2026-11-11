@@ -27,7 +27,7 @@
   header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 18px;position:sticky;top:14px;z-index:9}
   header .logo{font-family:"Archivo Black",sans-serif;font-size:20px}
   header nav{display:flex;gap:8px}
-  .btn{display:inline-block;padding:8px 16px;border:3px solid var(--k);border-radius:99px;text-decoration:none;font-weight:700;background:var(--w);box-shadow:3px 3px 0 var(--k);transition:.12s}
+  .btn{display:inline-block;white-space:nowrap;padding:8px 16px;border:3px solid var(--k);border-radius:99px;text-decoration:none;font-weight:700;background:var(--w);box-shadow:3px 3px 0 var(--k);transition:.12s}
   .btn:hover{transform:translate(3px,3px);box-shadow:0 0 0 var(--k)}
   .btn.y{background:var(--y)}.btn.p{background:var(--p)}.btn.g{background:var(--g)}.btn.b{background:var(--b);color:#fff}
   .hero{display:grid;grid-template-columns:1.5fr 1fr;gap:22px;margin-top:34px}
@@ -80,13 +80,13 @@
   .cta .btn{font-size:19px;padding:12px 24px;margin:6px}
   footer{text-align:center;padding:34px 0 16px;font-weight:700;font-size:14px}
   @media(max-width:900px){.hero,.about,.quotes{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.side{grid-template-columns:1fr 1fr}.job{grid-template-columns:1fr}.job .when{border-right:0;border-bottom:3px solid var(--k);font-size:24px;padding:16px 26px}.job .when br{display:none}}
-  @media(max-width:560px){.cards{grid-template-columns:1fr}.card{min-height:0}.card h3{margin-top:18px}header nav .btn:not(.y){display:none}.hero .main{padding:34px 22px}.sticker{right:6px}}
+  @media(max-width:560px){.cards{grid-template-columns:1fr}.card{min-height:0}.card h3{margin-top:18px}header nav .btn:not(.y){display:none}header .logo{font-size:16px}.hero .main{padding:34px 22px}.sticker{right:6px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="box">
-    <span class="logo">UFUK.DEV</span>
+    <span class="logo">UFUKOZDEMIR.DEV</span>
     <nav><a class="btn" href="#about">About</a><a class="btn" href="#ai">AI</a><a class="btn" href="#work">Work</a><a class="btn y" href="#contact">Say hi</a></nav>
   </header>
 
